@@ -13,7 +13,7 @@ HOST_DMZ_10_1_0 = '0.host.csv'
 
 def check_file_exit(filename, serial):
     new_filename = '{}.{}'.format(filename, serial)
-    if os.path.isfile(new_filename):
+    if not os.path.isfile(new_filename):
         return new_filename
     else:
         new_filename = check_file_exit(filename, serial+1)
@@ -44,7 +44,7 @@ def write_config_file(row):
     host = row[0].ljust(24)
     name_a = row[1]
     name_b = row[2]
-    where = row[2]
+    where = row[3]
     return '{}\t{}\t{}\t{}\n'.format(host, name_a, name_b, where)
 
 
@@ -59,7 +59,8 @@ def cover_csv_to_config():
 
 
 def main():
-    cover_csv_to_config()
+    if check_host_exit():
+        cover_csv_to_config()
 
 
 if __name__ == '__main__':
