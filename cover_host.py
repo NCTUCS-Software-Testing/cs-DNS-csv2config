@@ -26,7 +26,7 @@ def check_host_exit():
         init_filename = '{}.{}-{}-{}'.format(
             OUTPUT_FILE,
             localtime.tm_year, localtime.tm_mon, localtime.tm_mday)
-        filename = check_file_exit(init_filename, 1):
+        filename = check_file_exit(init_filename, 1)
         os.rename(OUTPUT_FILE, filename)
         return True
     else:
