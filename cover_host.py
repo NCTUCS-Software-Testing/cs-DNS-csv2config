@@ -143,7 +143,6 @@ def cover_csv_to_rev():
 def check_init_exist():
     filename = os.path.join(SOURCE_DIR, HOST_DMZ_10_1_0)
     if not os.path.isfile(filename):
-        print(filename)
         return False
     filename = os.path.join(SOURCE_DIR, HOST_CORE_10_1_1)
     if not os.path.isfile(filename):
