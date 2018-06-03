@@ -7,11 +7,11 @@ import time
 
 
 OUTPUT_HOST = os.path.join(
-    os.sep, 'etc', 'named', 'vm.cc.cs', 'db.private_host')
+    os.sep, 'etc', 'named', 'cc.cs', 'db.private_host')
 SOURCE_DIR = os.path.join(
     os.path.dirname(os.path.abspath(__file__)), 'host')
 OUTPUT_DIR = os.path.join(
-    os.sep, 'etc', 'named', 'vm.cc.cs')
+    os.sep, 'etc', 'named', 'cc.cs')
 # DMZ 10.1.0.0/24
 HOST_DMZ_10_1_0 = '0.host.csv'
 OUTPUT_0_REV = '0.rev'
@@ -118,26 +118,79 @@ def cover_csv_to_config():
     print("=========================================================")
     output_host = check_host_exist(OUTPUT_HOST)
     write_file = open(output_host, mode="a+", encoding="utf-8")
-    # cover DMZ (10.1.6.0/24)
-    print("  cover HOST DMZ (10.1.6.0/24)")
-    host_csv = os.path.join(SOURCE_DIR, HOST_VM_10_1_6)
+    # cover beging
+    print("  cover HOST DMZ (10.1.0.0/24)\n")
+    host_csv = os.path.join(SOURCE_DIR, HOST_DMZ_10_1_0)
+    if os.path.isfile(host_csv):
+        open_csv_file_and_write_host(host_csv, write_file)
+    print("  cover HOST Core (10.1.1.0/24)\n")
+    host_csv = os.path.join(SOURCE_DIR, HOST_CORE_10_1_1)
+    if os.path.isfile(host_csv):
+        open_csv_file_and_write_host(host_csv, write_file)
+    print("  cover HOST LINUX (10.1.2.0/24)\n")
+    host_csv = os.path.join(SOURCE_DIR, HOST_LINUX_10_1_2)
+    if os.path.isfile(host_csv):
+        open_csv_file_and_write_host(host_csv, write_file)
+    print("  cover HOST BSD (10.1.3.0/24)\n")
+    host_csv = os.path.join(SOURCE_DIR, HOST_BSD_10_1_3)
+    if os.path.isfile(host_csv):
+        open_csv_file_and_write_host(host_csv, write_file)
+    print("  cover HOST WWW (10.1.4.0/24)\n")
+    host_csv = os.path.join(SOURCE_DIR, HOST_WWW_10_1_4)
+    if os.path.isfile(host_csv):
+        open_csv_file_and_write_host(host_csv, write_file)
+    print("  cover HOST STORAGE (10.1.5.0/24)\n")
+    host_csv = os.path.join(SOURCE_DIR, HOST_STORAGE_10_1_5)
+    if os.path.isfile(host_csv):
+        open_csv_file_and_write_host(host_csv, write_file)
+    print("  cover HOST NET (10.1.7.0/24)\n")
+    host_csv = os.path.join(SOURCE_DIR, HOST_NET_10_1_7)
+    if os.path.isfile(host_csv):
+        open_csv_file_and_write_host(host_csv, write_file)
+    print("  cover HOST PC (10.1.8.0/24)\n")
+    host_csv = os.path.join(SOURCE_DIR, HOST_PC_10_1_8)
+    if os.path.isfile(host_csv):
+        open_csv_file_and_write_host(host_csv, write_file)
+        print("  cover HOST MAIL (10.1.9.0/24)\n")
+    host_csv = os.path.join(SOURCE_DIR, HOST_MAIL_10_1_9)
     if os.path.isfile(host_csv):
         open_csv_file_and_write_host(host_csv, write_file)
     # cover end
     write_file.close()
 
 
-def cover_csv_to_rev():
-    # cover VM (10.1.6.0/24)
-    print("=========================================================")
-    print("  cover REV VM (10.1.6.0/24)")
-    output_host = check_host_exist(OUTPUT_6_REV)
+def cover_csv_to_rev_doing(inputfile, outputfile):
+    output_host = check_host_exist(outputfile)
     write_file = open(output_host, mode="a+", encoding="utf-8")
-    host_csv = os.path.join(SOURCE_DIR, HOST_VM_10_1_6)
+    host_csv = os.path.join(SOURCE_DIR, inputfile)
     if os.path.isfile(host_csv):
         open_csv_file_and_write_rev(host_csv, write_file)
     write_file.close()
+
+
+def cover_csv_to_rev():
     # cover VM (10.1.6.0/24)
+    print("=========================================================")
+    print("  cover REV DMZ (10.1.0.0/24)\n")
+    cover_csv_to_rev_doing(HOST_DMZ_10_1_0, OUTPUT_0_REV)
+    print("  cover REV CORE (10.1.1.0/24)\n")
+    cover_csv_to_rev_doing(HOST_CORE_10_1_1, OUTPUT_1_REV)
+    print("  cover REV LINUX (10.1.2.0/24)\n")
+    cover_csv_to_rev_doing(HOST_LINUX_10_1_2, OUTPUT_2_REV)
+    print("  cover REV BSD (10.1.3.0/24)\n")
+    cover_csv_to_rev_doing(HOST_BSD_10_1_3, OUTPUT_3_REV)
+    print("  cover REV WWW (10.1.4.0/24)\n")
+    cover_csv_to_rev_doing(HOST_WWW_10_1_4, OUTPUT_4_REV)
+    print("  cover REV STORAGE (10.1.5.0/24)\n")
+    cover_csv_to_rev_doing(HOST_STORAGE_10_1_5, OUTPUT_5_REV)
+    print("  cover REV NET (10.1.7.0/24)\n")
+    cover_csv_to_rev_doing(HOST_NET_10_1_7, OUTPUT_7_REV)
+    print("  cover REV PC (10.1.8.0/24)\n")
+    cover_csv_to_rev_doing(HOST_PC_10_1_8, OUTPUT_8_REV)
+    print("  cover REV MAIL (10.1.9.0/24)\n")
+    cover_csv_to_rev_doing(HOST_MAIL_10_1_9, OUTPUT_9_REV)
+    print("=========================================================")
+
 
 
 def check_init_exist():
