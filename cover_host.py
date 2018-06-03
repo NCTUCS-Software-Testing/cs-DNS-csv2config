@@ -25,18 +25,18 @@ OUTPUT_3_REV = '3.rev'
 HOST_WWW_10_1_4 = '4.host.csv'
 OUTPUT_4_REV = '4.rev'
 # Storage 10.1.5.0/24
-HOST_WWW_10_1_4 = '5.host.csv'
+HOST_STORAGE_10_1_5 = '5.host.csv'
 OUTPUT_4_REV = '5.rev'
 # VM 10.1.6.0/24
 # == VM have two special DNS ==
 # NET 10.1.7.0/24
-HOST_WWW_10_1_4 = '7.host.csv'
+HOST_NET_10_1_7 = '7.host.csv'
 OUTPUT_4_REV = '7.rev'
 # PC 10.1.8.0/24
-HOST_WWW_10_1_4 = '8.host.csv'
+HOST_PC_10_1_8 = '8.host.csv'
 OUTPUT_4_REV = '8.rev'
 # Mail 10.1.9.0/24
-HOST_WWW_10_1_4 = '9.host.csv'
+HOST_MAIL_10_1_9 = '9.host.csv'
 OUTPUT_4_REV = '9.rev'
 
 
@@ -46,7 +46,7 @@ def check_file_exist(filename, serial):
     if not os.path.isfile(output_host_filename):
         return new_filename
     else:
-        new_filename = check_file_exit(filename, serial+1)
+        new_filename = check_file_exist(filename, serial+1)
         return new_filename
 
 
@@ -59,7 +59,7 @@ def check_host_exist(input_filename):
             localtime.tm_year, localtime.tm_mon, localtime.tm_mday)
         filename = check_file_exist(init_filename, 1)
         new_output_host_filename = os.path.join(OUTPUT_DIR, filename)
-        #rename config and backup
+        # rename config and backup
         os.rename(output_host_filename, new_output_host_filename)
         return output_host_filename
     else:
@@ -135,10 +135,34 @@ def cover_csv_to_rev():
 
 def check_init_exist():
     filename = os.path.join(SOURCE_DIR, HOST_DMZ_10_1_0)
-    if os.path.isfile(filename):
-        return True
+    if not os.path.isfile(filename):
+        return False
+    filename = os.path.join(SOURCE_DIR, HOST_CORE_10_1_1)
+    if not os.path.isfile(filename):
+        return False
+    filename = os.path.join(SOURCE_DIR, HOST_LINUX_10_1_2)
+    if not os.path.isfile(filename):
+        return False
+    filename = os.path.join(SOURCE_DIR, HOST_BSD_10_1_3)
+    if not os.path.isfile(filename):
+        return False
+    filename = os.path.join(SOURCE_DIR, HOST_WWW_10_1_4)
+    if not os.path.isfile(filename):
+        return False
+    filename = os.path.join(SOURCE_DIR, HOST_STORAGE_10_1_5)
+    if not os.path.isfile(filename):
+        return False
+    filename = os.path.join(SOURCE_DIR, HOST_NET_10_1_7)
+    if not os.path.isfile(filename):
+        return False
+    filename = os.path.join(SOURCE_DIR, HOST_PC_10_1_8)
+    if not os.path.isfile(filename):
+        return False
+    filename = os.path.join(SOURCE_DIR, HOST_MAIL_10_1_9)
+    if not os.path.isfile(filename):
+        return False
     # check complete
-    return False
+    return True
 
 
 def main():
