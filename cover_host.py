@@ -6,38 +6,33 @@ import csv
 import time
 
 
-OUTPUT_HOST = 'db.private_host'
-SOURCE_DIR = 'host'
-OUTPUT_DIR = 'working'
+OUTPUT_HOST = os.path.join(
+    os.sep, 'etc', 'named', 'cc.cs', 'db.private_host')
+SOURCE_DIR = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), 'host')
+OUTPUT_DIR = os.path.join(
+    os.sep, 'etc', 'named', 'cc.cs')
 # DMZ 10.1.0.0/24
-HOST_DMZ_10_1_0 = '0.host.csv'
-OUTPUT_0_REV = '0.rev'
+DMZ_10_1_0 = ('0.host.csv', '0.rev')
 # Core 10.1.1.0/24
-HOST_CORE_10_1_1 = '1.host.csv'
-OUTPUT_1_REV = '1.rev'
+CORE_10_1_1 = ('1.host.csv', '1.rev')
 # Linux 10.1.2.0/24
-HOST_LINUX_10_1_2 = '2.host.csv'
-OUTPUT_2_REV = '2.rev'
+LINUX_10_1_2 = ('2.host.csv', '2.rev')
 # FreeBSD 10.1.3.0/24
-HOST_BSD_10_1_3 = '3.host.csv'
-OUTPUT_3_REV = '3.rev'
+BSD_10_1_3 = ('3.host.csv', '3.rev')
 # WWW 10.1.4.0/24
-HOST_WWW_10_1_4 = '4.host.csv'
-OUTPUT_4_REV = '4.rev'
+WWW_10_1_4 = ('4.host.csv', '4.rev')
 # Storage 10.1.5.0/24
-HOST_STORAGE_10_1_5 = '5.host.csv'
-OUTPUT_4_REV = '5.rev'
+STORAGE_10_1_5 = ('5.host.csv', '5.rev')
 # VM 10.1.6.0/24
 # == VM have two special DNS ==
+VM_10_1_6 = ('6.host.csv', '6.rev')
 # NET 10.1.7.0/24
-HOST_NET_10_1_7 = '7.host.csv'
-OUTPUT_4_REV = '7.rev'
+NET_10_1_7 = ('7.host.csv', '7.rev')
 # PC 10.1.8.0/24
-HOST_PC_10_1_8 = '8.host.csv'
-OUTPUT_4_REV = '8.rev'
+PC_10_1_8 = ('8.host.csv', '8.rev')
 # Mail 10.1.9.0/24
-HOST_MAIL_10_1_9 = '9.host.csv'
-OUTPUT_4_REV = '9.rev'
+MAIL_10_1_9 = ('9.host.csv', '9.rev')
 
 
 def check_file_exist(filename, serial):
@@ -83,21 +78,24 @@ def open_csv_file_and_write_rev(filename, write_file):
 
 
 def write_host_config_file(data):
-    if data[3] is not '':
+    if len(data) > 3 and data[3] is not '':
         name = data[0]
         where = data[1]
-        host_a = data[2].ljust(24)
-        host_b = data[3].ljust(24)
-        return (
-            '{}\tIN\t{}\t{}\n'.format(host_a, name, where),
-            '{}\tIN\tcname\t{}\n'.format(host_b, where)
-            )
+        host = data[2]
+        re_tuple = ('{}\tIN\t{}\t{}\n'.format(host.ljust(24), name, where),)
+        for host_cname in data[3:]:
+            if host_cname is not '':
+                return re_tuple
+            host_cname = host_cname.ljust(24)
+            tmp_tuple = ('{}\tIN\tcname\t{}\n'.format(host_cname, name, host),)
+            re_tuple = re_tuple + tmp_tuple
+        return re_tuple
     else:
         name = data[0]
         where = data[1]
-        host_a = data[2].ljust(24)
+        host = data[2].ljust(24)
         return (
-            '{}\tIN\t{}\t{}\n'.format(host_a, name, where)
+            '{}\tIN\t{}\t{}\n'.format(host, name, where)
             )
 
 
@@ -109,69 +107,62 @@ def write_rev_config_file(data):
     return ('{}\tIN\tPTR\t{}\n'.format(where, host))
 
 
-def cover_csv_to_config():
+def cover_csv_to_config(file_list):
+    print("=========================================================")
     output_host = check_host_exist(OUTPUT_HOST)
     write_file = open(output_host, mode="a+", encoding="utf-8")
-    # cover DMZ (10.1.0.0/16)
-    print("cover HOST DMZ (10.1.0.0/16)")
-    host_csv = os.path.join(SOURCE_DIR, HOST_DMZ_10_1_0)
-    if os.path.isfile(host_csv):
-        open_csv_file_and_write_host(host_csv, write_file)
+    # cover beging
+    for each_file in file_list:
+        print("  cover HOST {}".format(each_file[0]))
+        host_csv = os.path.join(SOURCE_DIR, each_file[0])
+        if os.path.isfile(host_csv):
+            open_csv_file_and_write_host(host_csv, write_file)
+        else:
+            print("  cover HOST {} false, because file is not exist.".format(
+                each_file[0])
+                )
     # cover end
     write_file.close()
 
 
-def cover_csv_to_rev():
-    # cover DMZ (10.1.0.0/16)
-    print("cover REV DMZ (10.1.0.0/16)")
-    output_host = check_host_exist(OUTPUT_0_REV)
-    write_file = open(output_host, mode="a+", encoding="utf-8")
-    host_csv = os.path.join(SOURCE_DIR, HOST_DMZ_10_1_0)
-    if os.path.isfile(host_csv):
-        open_csv_file_and_write_rev(host_csv, write_file)
-    write_file.close()
-    # cover DMZ (10.1.0.0/16)
+def cover_csv_to_rev(file_list):
+    for each_file in file_list:
+        print("  cover REV {}\n".format(each_file[0]))
+        output_host = check_host_exist(each_file[1])
+        write_file = open(output_host, mode="a+", encoding="utf-8")
+        host_csv = os.path.join(SOURCE_DIR, each_file[0])
+        if os.path.isfile(host_csv):
+            open_csv_file_and_write_rev(host_csv, write_file)
+        else:
+            print("  cover HOST {} false, because file is not exist.".format(
+                each_file[0])
+                )
+        write_file.close()
 
 
-def check_init_exist():
-    filename = os.path.join(SOURCE_DIR, HOST_DMZ_10_1_0)
-    if not os.path.isfile(filename):
-        return False
-    filename = os.path.join(SOURCE_DIR, HOST_CORE_10_1_1)
-    if not os.path.isfile(filename):
-        return False
-    filename = os.path.join(SOURCE_DIR, HOST_LINUX_10_1_2)
-    if not os.path.isfile(filename):
-        return False
-    filename = os.path.join(SOURCE_DIR, HOST_BSD_10_1_3)
-    if not os.path.isfile(filename):
-        return False
-    filename = os.path.join(SOURCE_DIR, HOST_WWW_10_1_4)
-    if not os.path.isfile(filename):
-        return False
-    filename = os.path.join(SOURCE_DIR, HOST_STORAGE_10_1_5)
-    if not os.path.isfile(filename):
-        return False
-    filename = os.path.join(SOURCE_DIR, HOST_NET_10_1_7)
-    if not os.path.isfile(filename):
-        return False
-    filename = os.path.join(SOURCE_DIR, HOST_PC_10_1_8)
-    if not os.path.isfile(filename):
-        return False
-    filename = os.path.join(SOURCE_DIR, HOST_MAIL_10_1_9)
-    if not os.path.isfile(filename):
-        return False
+def check_init_exist(file_list):
+    for each_file in file_list:
+        filename = os.path.join(SOURCE_DIR, each_file[0])
+        if not os.path.isfile(filename):
+            print("  {} check file FAILE".format(each_file[0]))
+            return False
     # check complete
     return True
 
 
 def main():
     print("Cover CSV to DNS config")
-    if check_init_exist():
-        cover_csv_to_config()
-        cover_csv_to_rev()
+    file_list = [
+        DMZ_10_1_0, CORE_10_1_1, LINUX_10_1_2, BSD_10_1_3, WWW_10_1_4,
+        STORAGE_10_1_5, NET_10_1_7, PC_10_1_8, MAIL_10_1_9]
+    if check_init_exist(file_list):
+        print("=========================================================")
+        cover_csv_to_config(file_list)
+        print("=========================================================")
+        cover_csv_to_rev(file_list)
+        print("=========================================================")
     else:
-        print("Check init file exist")
+        print("  Check init file exist 'FALSE', please check!")
     print("Cover CSV to DNS config complete")
 
 
