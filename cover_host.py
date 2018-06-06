@@ -84,10 +84,10 @@ def write_host_config_file(data):
         host = data[2]
         re_tuple = ('{}\tIN\t{}\t{}\n'.format(host.ljust(24), name, where),)
         for host_cname in data[3:]:
-            if host_cname is not '':
+            if host_cname is '':
                 return re_tuple
             host_cname = host_cname.ljust(24)
-            tmp_tuple = ('{}\tIN\tcname\t{}\n'.format(host_cname, name, host),)
+            tmp_tuple = ('{}\tIN\tcname\t{}\n'.format(host_cname, host),)
             re_tuple = re_tuple + tmp_tuple
         return re_tuple
     else:
@@ -108,12 +108,11 @@ def write_rev_config_file(data):
 
 
 def cover_csv_to_config(file_list):
-    print("=========================================================")
     output_host = check_host_exist(OUTPUT_HOST)
     write_file = open(output_host, mode="a+", encoding="utf-8")
     # cover beging
     for each_file in file_list:
-        print("  cover HOST {}".format(each_file[0]))
+        print("  cover HOST {}\n".format(each_file[0]))
         host_csv = os.path.join(SOURCE_DIR, each_file[0])
         if os.path.isfile(host_csv):
             open_csv_file_and_write_host(host_csv, write_file)
