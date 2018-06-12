@@ -5,34 +5,15 @@ import os
 import csv
 import time
 
+import settings
 
-OUTPUT_HOST = os.path.join(
-    os.sep, 'etc', 'named', 'cc.cs', 'db.private_host')
-SOURCE_DIR = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)), 'host')
-OUTPUT_DIR = os.path.join(
-    os.sep, 'etc', 'named', 'cc.cs')
-# DMZ 10.1.0.0/24
-DMZ_10_1_0 = ('0.host.csv', '0.rev')
-# Core 10.1.1.0/24
-CORE_10_1_1 = ('1.host.csv', '1.rev')
-# Linux 10.1.2.0/24
-LINUX_10_1_2 = ('2.host.csv', '2.rev')
-# FreeBSD 10.1.3.0/24
-BSD_10_1_3 = ('3.host.csv', '3.rev')
-# WWW 10.1.4.0/24
-WWW_10_1_4 = ('4.host.csv', '4.rev')
-# Storage 10.1.5.0/24
-STORAGE_10_1_5 = ('5.host.csv', '5.rev')
-# VM 10.1.6.0/24
-# == VM have two special DNS ==
-VM_10_1_6 = ('6.host.csv', '6.rev')
-# NET 10.1.7.0/24
-NET_10_1_7 = ('7.host.csv', '7.rev')
-# PC 10.1.8.0/24
-PC_10_1_8 = ('8.host.csv', '8.rev')
-# Mail 10.1.9.0/24
-MAIL_10_1_9 = ('9.host.csv', '9.rev')
+DEBUGMODE = True
+VMDOMAIN = False
+
+SOURCE_DIR = settings.SOURCE_DIR
+OUTPUT_HOST = settings.debug_output_host(DEBUGMODE)
+OUTPUT_DIR = settings.debug_output_dir(DEBUGMODE)
+FILELIST = settings.debug_file_list(VMDOMAIN)
 
 
 def check_file_exist(filename, serial):
@@ -151,14 +132,11 @@ def check_init_exist(file_list):
 
 def main():
     print("Cover CSV to DNS config")
-    file_list = [
-        DMZ_10_1_0, CORE_10_1_1, LINUX_10_1_2, BSD_10_1_3, WWW_10_1_4,
-        STORAGE_10_1_5, NET_10_1_7, PC_10_1_8, MAIL_10_1_9]
-    if check_init_exist(file_list):
+    if check_init_exist(FILELIST):
         print("=========================================================")
-        cover_csv_to_config(file_list)
+        cover_csv_to_config(FILELIST)
         print("=========================================================")
-        cover_csv_to_rev(file_list)
+        cover_csv_to_rev(FILELIST)
         print("=========================================================")
     else:
         print("  Check init file exist 'FALSE', please check!")
