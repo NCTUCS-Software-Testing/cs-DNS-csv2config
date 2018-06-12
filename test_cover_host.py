@@ -5,6 +5,7 @@ import unittest
 import os
 import time
 from cover_host import *
+from settings import *
 
 
 class Test_cover_host(unittest.TestCase):
