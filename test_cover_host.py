@@ -25,8 +25,6 @@ from cover_host import OUTPUT_DIR
 from cover_host import FILELIST
 from cover_host import check_file_exist
 from cover_host import check_host_exist
-from cover_host import open_csv_file_and_write_host
-from cover_host import open_csv_file_and_write_rev
 from cover_host import write_host_config_file
 from cover_host import write_rev_config_file
 from cover_host import cover_csv_to_config
