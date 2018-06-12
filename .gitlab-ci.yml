@@ -4,4 +4,9 @@ test:
   only:
     - for_testing
   script:
+    - virtualenv .env
+    - source .env/bin/activate
+    - pip3 install coverage3
     - make test
+    - deactivate
+    - rm -rf .env
