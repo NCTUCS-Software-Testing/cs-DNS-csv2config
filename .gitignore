@@ -10,4 +10,5 @@ id_rsa
 
 # DNS config
 *.rev
+*.rev.*
 db.private_host
