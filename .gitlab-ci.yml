@@ -6,7 +6,7 @@ test:
   script:
     - virtualenv .env
     - source .env/bin/activate
-    - pip3 install coverage3
+    - pip3 install coverage
     - make test
     - deactivate
     - rm -rf .env
