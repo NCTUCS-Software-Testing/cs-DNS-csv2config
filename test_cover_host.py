@@ -4,8 +4,37 @@
 import unittest
 import os
 import time
-from cover_host import *
-from settings import *
+
+from settings import DMZ_10_1_0
+from settings import CORE_10_1_1
+from settings import LINUX_10_1_2
+from settings import BSD_10_1_3
+from settings import WWW_10_1_4
+from settings import STORAGE_10_1_5
+from settings import VM_10_1_6
+from settings import NET_10_1_7
+from settings import PC_10_1_8
+from settings import MAIL_10_1_9
+from settings import debug_file_list
+from settings import debug_output_host
+from settings import debug_output_dir
+from settings import main as settings_main
+
+from cover_host import SOURCE_DIR
+from cover_host import VMDOMAIN
+from cover_host import OUTPUT_HOST
+from cover_host import OUTPUT_DIR
+from cover_host import FILELIST
+from cover_host import check_file_exist
+from cover_host import check_host_exist
+from cover_host import open_csv_file_and_write_host
+from cover_host import open_csv_file_and_write_rev
+from cover_host import write_host_config_file
+from cover_host import write_rev_config_file
+from cover_host import cover_csv_to_config
+from cover_host import cover_csv_to_rev
+from cover_host import check_init_exist
+from cover_host import main as cover_host_main
 
 
 class Test_cover_host(unittest.TestCase):
