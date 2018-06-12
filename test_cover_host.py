@@ -57,6 +57,9 @@ class Test_cover_host(unittest.TestCase):
         self.assertEqual(("test1".ljust(24)+"\tIN\tA\t10.0.0.1\n", 
             "cname1".ljust(24)+"\tIN\tcname\ttest1\n"), 
             write_host_config_file(["A", "10.0.0.1", "test1", "cname1"]))
+        self.assertEqual(("test1".ljust(24)+"\tIN\tA\t10.0.0.1\n",
+            "cname1".ljust(24)+"\tIN\tcname\ttest1\n"),
+            write_host_config_file(["A", "10.0.0.1", "test1", 'cname1', '']))
         """ Two CNAME record """
         self.assertEqual((
             "test1".ljust(24)+"\tIN\tA\t10.0.0.1\n", 
