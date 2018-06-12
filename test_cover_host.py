@@ -115,6 +115,15 @@ class Test_cover_host(unittest.TestCase):
         self.assertEqual(False, cover_csv_to_config(FILELIST))
         os.rmdir(check_host_exist(OUTPUT_HOST))
         self.assertEqual(True, cover_csv_to_config(FILELIST))
+    
+    
+    def test_cover_csv_to_rev(self):
+        os.mkdir(os.path.join(
+            os.path.dirname(os.path.abspath(__file__)), 'working', '1.rev'))
+        self.assertEqual(False, cover_csv_to_rev(FILELIST))
+        os.rmdir(os.path.join(
+            os.path.dirname(os.path.abspath(__file__)), 'working', '1.rev'))
+        #self.assertEqual(True, cover_csv_to_config(FILELIST))
 
 
     def test_write_host_config_file(self):
