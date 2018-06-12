@@ -58,6 +58,10 @@ class Test_cover_host(unittest.TestCase):
             debug_output_host(False))
 
 
+    def test_settings_main(self):
+        self.assertTrue(settings_main())
+
+
     def test_debug_output_dir(self):
         self.assertEqual(os.path.join(
             os.path.dirname(os.path.abspath(__file__)), 'working'),
@@ -131,6 +135,10 @@ class Test_cover_host(unittest.TestCase):
         self.assertEqual("1.0.0.10.in-addr.arpa.".ljust(28)+
             "\tIN\tPTR\ttest1\n",
             write_rev_config_file(["A", "10.0.0.1", "test1"]))
+
+
+    def test_cover_host_main(self):
+        self.assertIsNone(cover_host_main())
 
 
 if __name__ == "__main__":
