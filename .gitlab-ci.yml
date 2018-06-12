@@ -1,0 +1,7 @@
+test:
+  tags:
+    - shell
+  only:
+    - for_testing
+  script:
+    - make test
