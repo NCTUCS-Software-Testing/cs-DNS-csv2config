@@ -2,12 +2,14 @@
 # -*- coding:utf-8 -*-
 
 import unittest
+import os
+import time
 from cover_host import *
 
 
 class Test_cover_host(unittest.TestCase):
     """ Test cover_host.py """
-    
+
 
     def test_check_init_exist(self):
         """ Test check_init_exist(file_list) """
@@ -18,10 +20,35 @@ class Test_cover_host(unittest.TestCase):
         , ("Test2", "Test2.rev"), ("Test3", "Test3.rev")]))
 
 
-    #def test_host_exist(self):
-        
-
-    #def test_file_exist(self):
+    def test_check_file_exist(self):
+        file_list=['0.rev','1.rev','2.rev','3.rev','4.rev','5.rev',
+            '6.rev','7.rev','8.rev','9.rev']
+        for each_file in file_list:
+            self.assertEqual(each_file+".1", check_file_exist(each_file, 1))
+        for each_file in file_list:
+            f = open(os.path.join(OUTPUT_DIR, each_file+".1"),"w+")
+            f.close()
+            self.assertEqual(each_file+".2", check_file_exist(each_file, 1))
+            os.remove(os.path.join(OUTPUT_DIR, each_file+".1"))
+    
+    
+    def test_check_host_exist(self):
+        file_list=['0.rev','1.rev','2.rev','3.rev','4.rev','5.rev',
+            '6.rev','7.rev','8.rev','9.rev']
+        localtime = time.localtime(time.time())
+        for each_file in file_list:
+            self.assertEqual(os.path.join(OUTPUT_DIR, each_file),
+                check_host_exist(each_file))
+        for each_file in file_list:
+            f = open(os.path.join(OUTPUT_DIR, each_file),"w+")
+            f.close()
+            self.assertEqual(os.path.join(OUTPUT_DIR, '{}.{}-{}-{}'.format(
+                each_file,
+                localtime.tm_year, localtime.tm_mon, localtime.tm_mday)),
+                check_host_exist(each_file))
+            os.remove(os.path.join(OUTPUT_DIR, '{}.{}-{}-{}.1'.format(
+                each_file,
+                localtime.tm_year, localtime.tm_mon, localtime.tm_mday)))
 
 
     def test_write_host_config_file(self):
