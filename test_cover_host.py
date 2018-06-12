@@ -42,9 +42,7 @@ class Test_cover_host(unittest.TestCase):
         for each_file in file_list:
             f = open(os.path.join(OUTPUT_DIR, each_file),"w+")
             f.close()
-            self.assertEqual(os.path.join(OUTPUT_DIR, '{}.{}-{}-{}'.format(
-                each_file,
-                localtime.tm_year, localtime.tm_mon, localtime.tm_mday)),
+            self.assertEqual(os.path.join(OUTPUT_DIR, each_file),
                 check_host_exist(each_file))
             os.remove(os.path.join(OUTPUT_DIR, '{}.{}-{}-{}.1'.format(
                 each_file,
