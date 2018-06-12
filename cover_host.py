@@ -90,7 +90,11 @@ def write_rev_config_file(data):
 
 def cover_csv_to_config(file_list):
     output_host = check_host_exist(OUTPUT_HOST)
-    write_file = open(output_host, mode="a+", encoding="utf-8")
+    try:
+        write_file = open(output_host, mode="a+", encoding="utf-8")
+    except Exception as error:
+        print(error)
+        return False
     # cover beging
     for each_file in file_list:
         print("  cover HOST {}\n".format(each_file[0]))
@@ -101,15 +105,21 @@ def cover_csv_to_config(file_list):
             print("  cover HOST {} false, because file is not exist.".format(
                 each_file[0])
                 )
+            return False
     # cover end
     write_file.close()
+    return True
 
 
 def cover_csv_to_rev(file_list):
     for each_file in file_list:
         print("  cover REV {}\n".format(each_file[0]))
         output_host = check_host_exist(each_file[1])
-        write_file = open(output_host, mode="a+", encoding="utf-8")
+        try:
+            write_file = open(output_host, mode="a+", encoding="utf-8")
+        except Exception as error:
+            print(error)
+            return False
         host_csv = os.path.join(SOURCE_DIR, each_file[0])
         if os.path.isfile(host_csv):
             open_csv_file_and_write_rev(host_csv, write_file)
@@ -117,6 +127,7 @@ def cover_csv_to_rev(file_list):
             print("  cover HOST {} false, because file is not exist.".format(
                 each_file[0])
                 )
+            return False
         write_file.close()
 
 
