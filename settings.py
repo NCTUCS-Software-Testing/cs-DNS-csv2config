@@ -45,6 +45,7 @@ def debug_output_host(debug):
         return os.path.join(
             os.sep, 'etc', 'named', 'cc.cs', 'db.private_host')
 
+
 def debug_output_dir(debug):
     if debug:
         return os.path.join(
@@ -58,9 +59,9 @@ def main():
     print(SOURCE_DIR)
     print(debug_output_host(DEBUGMODE))
     print(debug_output_dir(DEBUGMODE))
-    print(SOURCE_DIR)
     print(debug_output_host(False))
     print(debug_output_dir(False))
+    return True
 
 
 if __name__ == '__main__':
