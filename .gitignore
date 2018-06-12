@@ -3,3 +3,11 @@
 id_rsa
 .DS_Store
 .git
+.idea
+
+# Python
+*.pyc
+
+# DNS config
+*.rev
+db.private_host
