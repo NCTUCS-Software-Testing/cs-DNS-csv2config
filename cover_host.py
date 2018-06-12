@@ -7,11 +7,11 @@ import time
 
 
 OUTPUT_HOST = os.path.join(
-    os.sep, 'etc', 'named', 'cc.cs', 'db.private_host')
+    os.path.dirname(os.path.abspath(__file__)), 'working', 'db_host')
 SOURCE_DIR = os.path.join(
     os.path.dirname(os.path.abspath(__file__)), 'host')
 OUTPUT_DIR = os.path.join(
-    os.sep, 'etc', 'named', 'cc.cs')
+    os.path.dirname(os.path.abspath(__file__)), 'working')
 # DMZ 10.1.0.0/24
 DMZ_10_1_0 = ('0.host.csv', '0.rev')
 # Core 10.1.1.0/24
