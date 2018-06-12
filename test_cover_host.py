@@ -105,6 +105,13 @@ class Test_cover_host(unittest.TestCase):
                 each_file,
                 localtime.tm_year, localtime.tm_mon, localtime.tm_mday)))
 
+    
+    def test_cover_csv_to_config(self):
+        os.mkdir(check_host_exist(OUTPUT_HOST))
+        self.assertEqual(False, cover_csv_to_config(FILELIST))
+        os.rmdir(check_host_exist(OUTPUT_HOST))
+        self.assertEqual(True, cover_csv_to_config(FILELIST))
+
 
     def test_write_host_config_file(self):
         """ Normal A record """
