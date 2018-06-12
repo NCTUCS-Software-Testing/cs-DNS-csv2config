@@ -9,9 +9,36 @@ from settings import *
 
 
 class Test_cover_host(unittest.TestCase):
+    """ Test settings.py """
+    def test_debug_file_list(self):
+        self.assertEqual([VM_10_1_6], debug_file_list(True))
+        self.assertEqual([
+            DMZ_10_1_0, CORE_10_1_1, LINUX_10_1_2, BSD_10_1_3, WWW_10_1_4,
+            STORAGE_10_1_5, NET_10_1_7, PC_10_1_8, MAIL_10_1_9], 
+            debug_file_list(False))
+    
+
+    def test_debug_output_host(self):
+        self.assertEqual(os.path.join(
+            os.path.dirname(os.path.abspath(__file__)), 
+            'working', 'db.private_host'),
+            debug_output_host(True))
+        self.assertEqual(os.path.join(
+            os.sep, 
+            'etc', 'named', 'cc.cs', 'db.private_host'),
+            debug_output_host(False))
+
+
+    def test_debug_output_dir(self):
+        self.assertEqual(os.path.join(
+            os.path.dirname(os.path.abspath(__file__)), 'working'),
+            debug_output_dir(True))
+        self.assertEqual(os.path.join(
+            os.sep, 'etc', 'named', 'cc.cs'),
+            debug_output_dir(False))
+
+
     """ Test cover_host.py """
-
-
     def test_check_init_exist(self):
         """ Test check_init_exist(file_list) """
         self.assertEqual(True, check_init_exist([DMZ_10_1_0, 
