@@ -1,0 +1,12 @@
+test:
+  tags:
+    - shell
+  only:
+    - for_testing
+  script:
+    - virtualenv .env
+    - source .env/bin/activate
+    - pip3 install coverage
+    - make test
+    - deactivate
+    - rm -rf .env
