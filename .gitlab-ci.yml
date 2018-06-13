@@ -7,7 +7,7 @@ test:
   tags:
     - linuxrunner
   script:
-    - sudo apt-get install python-virtualenv
+    - apt-get install python-virtualenv
     - virtualenv .env
     - source .env/bin/activate
     - pip3 install coverage
