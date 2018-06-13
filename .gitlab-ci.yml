@@ -13,8 +13,7 @@ test:
     - python --version
     - virtualenv -p python3 .env
     - source .env/bin/activate
-    - python --version
-    - python -m pip3 install coverage
+    - python -m pip install coverage
     - make test
     - make clean
     - deactivate
