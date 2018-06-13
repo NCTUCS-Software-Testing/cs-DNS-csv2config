@@ -10,11 +10,9 @@ test:
     - apt update
     - apt install python3 -y
     - apt install python-virtualenv -y
-    - python --version
     - virtualenv -p python3 .env
     - source .env/bin/activate
     - python -m pip install coverage
-    - make test
-    - make clean
-    - deactivate
-    - rm -rf .env
+    - python cover_host.py
+    - coverage run test_cover_host.py
+    - coverage report -m
