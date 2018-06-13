@@ -8,8 +8,8 @@ test:
     - linuxrunner
   script:
     - apt update
-    - apt install python3
-    - apt install python-virtualenv
+    - apt install python3 -y
+    - apt install python-virtualenv -y
     - python --version
     - virtualenv .env
     - source .env/bin/activate
