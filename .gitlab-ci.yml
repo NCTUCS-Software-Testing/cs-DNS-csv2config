@@ -1,13 +1,18 @@
+stages:
+  - test
+
 test:
+  stage: test
+  image: ubuntu:latest
   tags:
-    - shell
-  only:
-    - for_testing
+    - linuxrunner
   script:
-    - virtualenv .env
+    - apt update
+    - apt install python3 -y
+    - apt install python-virtualenv -y
+    - virtualenv -p python3 .env
     - source .env/bin/activate
-    - pip3 install coverage
-    - make test
-    - make clean
-    - deactivate
-    - rm -rf .env
+    - python -m pip install coverage
+    - python cover_host.py
+    - coverage run test_cover_host.py
+    - coverage report -m
