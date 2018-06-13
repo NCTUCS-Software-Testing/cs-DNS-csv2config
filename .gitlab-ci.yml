@@ -3,7 +3,7 @@ stages:
 
 test:
   stage: test
-  image: latest/ubuntu
+  image: ubuntu/latest
   tags:
     - linuxrunner
   script:
