@@ -8,7 +8,7 @@ test:
     - linuxrunner
   script:
     - apt update
-    - apt install python36
+    - apt install python3
     - apt install python-virtualenv
     - python --version
     - virtualenv .env
