@@ -1,8 +1,11 @@
+stages:
+  - test
+
 test:
+  stage: test
+  image: latest/ubuntu
   tags:
-    - shell
-  only:
-    - for_testing
+    - linuxrunner
   script:
     - virtualenv .env
     - source .env/bin/activate
