@@ -11,9 +11,10 @@ test:
     - apt install python3 -y
     - apt install python-virtualenv -y
     - python --version
-    - virtualenv .env
+    - virtualenv -p python3 .env
     - source .env/bin/activate
-    - pip3 install coverage
+    - python --version
+    - pip install coverage
     - make test
     - make clean
     - deactivate
